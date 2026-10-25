@@ -39,14 +39,15 @@ export function QrPaymentsView() {
   }
 
   const review = (request: PaymentRequest) => {
-    const vendorName =
-      request.vendor ?? demoVendors.find((v) => v.address.toLowerCase() === request.to.toLowerCase())?.name
+    const sampleVendor = demoVendors.find((v) => v.address.toLowerCase() === request.to.toLowerCase())
+    const vendorName = request.vendor ?? sampleVendor?.name
     setDetails({
       to: request.to,
       amount: request.amount,
       label: vendorName ?? shortenAddress(request.to),
       note: request.reference ? `Ref ${request.reference}` : undefined,
       type: 'payment',
+      demo: Boolean(sampleVendor),
       extraRows: request.reference ? [{ label: 'Reference', value: request.reference }] : undefined,
     })
   }

@@ -1,3 +1,5 @@
+'use client'
+
 import { BookOpen, CalendarDays, Gift, HeartHandshake, Leaf, Target, Trophy } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DemoBadge, StatCard } from '@/components/shared/primitives'
@@ -36,7 +38,9 @@ export function RewardsView() {
           <CardHeader>
             <div>
               <CardTitle>Reward history</CardTitle>
-              <CardDescription>CC credited by the CampusCoin rewards wallet</CardDescription>
+              <CardDescription>
+                CC credited by the CampusCoin rewards wallet <DemoBadge label="Sample activity" className="ml-1" />
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -68,7 +72,9 @@ export function RewardsView() {
             <CardHeader>
               <div>
                 <CardTitle>Active challenges</CardTitle>
-                <CardDescription>Complete to unlock bonus CC</CardDescription>
+              <CardDescription>
+                Complete to unlock bonus CC <DemoBadge label="Sample challenges" className="ml-1" />
+              </CardDescription>
               </div>
             </CardHeader>
             <CardContent>

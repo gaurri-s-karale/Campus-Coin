@@ -15,6 +15,7 @@ export interface TransferDetails {
   label: string
   note?: string
   type?: TransactionType
+  demo?: boolean
   extraRows?: { label: string; value: string }[]
 }
 
@@ -42,7 +43,7 @@ export function TransferConfirmModal({
 }) {
   const wallet = useWallet()
   const transfer = useTokenTransfer()
-  const busy = transfer.status === 'awaiting-signature'
+  const busy = transfer.status === 'awaiting-signature' || transfer.status === 'pending'
 
   const handleClose = () => {
     if (busy) return
@@ -56,11 +57,13 @@ export function TransferConfirmModal({
 
   const blocker = !isContractConfigured
     ? 'contract'
-    : wallet.status !== 'connected'
-      ? 'wallet'
-      : !wallet.isCorrectNetwork
-        ? 'network'
-        : null
+    : details.demo
+      ? 'demo'
+      : wallet.status !== 'connected'
+        ? 'wallet'
+        : !wallet.isCorrectNetwork
+          ? 'network'
+          : null
 
   return (
     <Modal open={open} onClose={handleClose} title={title} dismissible={!busy}>
@@ -106,6 +109,13 @@ export function TransferConfirmModal({
             </div>
           )}
 
+          {blocker === 'demo' && (
+            <div className="mt-4 flex gap-2.5 rounded-xl border border-dashed p-3 text-sm">
+              <AlertTriangle className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
+              <p>This is a sample vendor address. Demo destinations cannot receive real CampusCoin.</p>
+            </div>
+          )}
+
           <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button variant="outline" className="h-11 rounded-xl" onClick={handleClose}>
               Cancel
@@ -121,7 +131,7 @@ export function TransferConfirmModal({
             ) : (
               <Button
                 className="h-11 rounded-xl"
-                disabled={blocker === 'contract'}
+                disabled={blocker === 'contract' || blocker === 'demo'}
                 onClick={() =>
                   transfer.send({
                     to: details.to,
@@ -132,7 +142,11 @@ export function TransferConfirmModal({
                   })
                 }
               >
-                {transfer.status === 'error' ? 'Try again' : 'Confirm & sign in wallet'}
+                {blocker === 'demo'
+                  ? 'Sample preview only'
+                  : transfer.status === 'error'
+                    ? 'Try again'
+                    : 'Confirm & sign in wallet'}
               </Button>
             )}
           </div>

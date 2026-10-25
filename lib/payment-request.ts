@@ -66,7 +66,7 @@ export function validateAmount(value: string, max?: number): string | null {
   if (!value.trim()) return 'Amount is required.'
   const n = Number(value)
   if (!Number.isFinite(n) || n <= 0) return 'Amount must be greater than 0.'
-  if (!/^\d+(\.\d{1,6})?$/.test(value.trim())) return 'Use up to 6 decimal places.'
+  if (!/^\d+(\.\d{1,18})?$/.test(value.trim())) return 'Use up to 18 decimal places.'
   if (max !== undefined && n > max) return `Amount exceeds your balance of ${max} CC.`
   return null
 }

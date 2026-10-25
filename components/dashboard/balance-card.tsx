@@ -34,7 +34,7 @@ type Tab = 'tokens' | 'activity'
 
 export function BalanceCard() {
   const { address } = useWallet()
-  const { balance, isDemo, isLoading, error, refresh } = useTokenBalance()
+  const { balance, isDemo, isLoading, error, refresh, isCorrectNetwork } = useTokenBalance()
   const [receiveOpen, setReceiveOpen] = useState(false)
   const [tab, setTab] = useState<Tab>('tokens')
   const displayAddress = address ?? demoStudent.address
@@ -90,7 +90,11 @@ export function BalanceCard() {
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
           {error ? (
-            <span className="text-destructive">Could not read balance from the contract.</span>
+            <span className="text-destructive">{error.message || 'Could not read balance from the contract.'}</span>
+          ) : address && !isCorrectNetwork ? (
+            <span className="text-warning">Switch to {appConfig.chainName} to view your live balance.</span>
+          ) : address && balance === null ? (
+            <span>Connect to {appConfig.chainName} to load your balance.</span>
           ) : (
             `${appConfig.tokenName} on ${appConfig.chainName}`
           )}

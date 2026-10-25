@@ -2,7 +2,7 @@ import { Contract, JsonRpcProvider, formatUnits, getAddress, parseUnits } from '
 import { appConfig } from '@/lib/config'
 import { getSigner } from './wallet-service'
 
-/** Minimal ERC-20 ABI for the CampusCoin token. Extend once the contract is finalised. */
+/** Minimal ERC-20 ABI for the deployed CampusCoin interface used by this app. */
 export const CAMPUSCOIN_ABI = [
   'function name() view returns (string)',
   'function symbol() view returns (string)',

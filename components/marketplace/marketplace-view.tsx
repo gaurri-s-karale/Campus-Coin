@@ -144,6 +144,7 @@ export function MarketplaceView({ initialCategory }: { initialCategory?: string 
                   label: v.name,
                   note: p.name,
                   type: 'payment',
+                  demo: true,
                   extraRows: [
                     { label: 'Item', value: p.name },
                     { label: 'Category', value: categoryMeta[v.category].label },
